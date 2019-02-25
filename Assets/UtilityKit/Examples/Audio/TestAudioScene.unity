@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 105683011}
   - component: {fileID: 105683012}
   m_Layer: 5
-  m_Name: SFXToggle
+  m_Name: SoundToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,10 +403,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterSlider: {fileID: 914134749}
-  bgmSlider: {fileID: 710498401}
-  sfxSlider: {fileID: 279493614}
+  musicSlider: {fileID: 710498401}
+  soundSlider: {fileID: 279493614}
   musicToggle: {fileID: 1049757137}
-  sfxToggle: {fileID: 105683012}
+  soundToggle: {fileID: 105683012}
   music: {fileID: 8300000, guid: 841a67c56bd114e458e4c89f8298c518, type: 3}
   sfx: {fileID: 8300000, guid: c8134f1ea6a65954cb606ea211b4782c, type: 3}
 --- !u!114 &170074121
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 279493613}
   - component: {fileID: 279493614}
   m_Layer: 5
-  m_Name: SFXSlider
+  m_Name: SoundSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 539702883}
   - component: {fileID: 539702882}
   m_Layer: 5
-  m_Name: BGMLabel
+  m_Name: MusicLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 710498400}
   - component: {fileID: 710498401}
   m_Layer: 5
-  m_Name: BGMSlider
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: 744675271}
   - component: {fileID: 744675270}
   m_Layer: 5
-  m_Name: SFXLabel
+  m_Name: SoundLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1220,7 +1220,7 @@ GameObject:
   - component: {fileID: 1049757136}
   - component: {fileID: 1049757137}
   m_Layer: 5
-  m_Name: BGMToggle
+  m_Name: MusicToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

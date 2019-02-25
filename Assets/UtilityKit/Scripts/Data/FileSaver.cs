@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public abstract class FileSaver<T> : IDataSaver<T> where T : IDataStore
     {

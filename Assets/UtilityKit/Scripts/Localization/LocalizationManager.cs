@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class LocalizationManager : GenericGameSettingsManager<LocalizationManager, LocalizationSettingsData>
     {

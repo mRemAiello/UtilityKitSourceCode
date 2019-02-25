@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Encryption extension to Json Saver

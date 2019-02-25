@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Managers a dictionary of pools, getting and returning 

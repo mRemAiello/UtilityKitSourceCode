@@ -3,8 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace MCFramework
+namespace UtilityKit
 {
+    public enum AudioVolumeChannel
+    {
+        Master,
+        Music,
+        Sound
+    }
+
+    public enum AudioMuteChannel
+    {
+        Music,
+        Sound
+    }
+
     [RequireComponent(typeof(AudioListener))]
     public class AudioManager : GenericGameSettingsManager<AudioManager, AudioGameSettingsData>
     {
@@ -13,8 +26,8 @@ namespace MCFramework
         /// </summary>
         public AudioMixer audioMixer;
 
-        private AudioSource m_BGMSource;
-        private List<AudioSource> m_SFXSources;
+        private AudioSource m_MusicSource;
+        private List<AudioSource> m_SoundSources;
 
         /// <summary>
         /// Just for enable / disable component
@@ -30,63 +43,61 @@ namespace MCFramework
         {
             base.OnAwake();
 
-            GameObject go = new GameObject("BGMSource", typeof(AudioSource));
-            go.transform.parent = transform;
-            m_BGMSource = go.GetComponent<AudioSource>();
-            m_BGMSource.loop = true;
-            m_BGMSource.playOnAwake = false;
-            m_BGMSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
+            if (m_SoundSources == null)
+                m_SoundSources = new List<AudioSource>();
 
-            SetVolumes(GameSettingsData.masterVolume, GameSettingsData.SFXVolume, GameSettingsData.BGMVolume);
+            GameObject go = new GameObject("MusicSource", typeof(AudioSource));
+            go.transform.parent = transform;
+            m_MusicSource = go.GetComponent<AudioSource>();
+            m_MusicSource.mute = GameSettingsData.musicMuted;
+            m_MusicSource.loop = true;
+            m_MusicSource.playOnAwake = false;
+            m_MusicSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Music")[0];
+
+            SetVolumes(GameSettingsData.masterVolume, GameSettingsData.musicVolume, GameSettingsData.soundVolume);
+            MuteVolumes(GameSettingsData.musicMuted, GameSettingsData.soundMuted);
         }
 
         /// <summary>
         /// Set and persist master volume
         /// </summary>
-        public static void SetMasterVolume(float masterVolume, bool save = false)
+        public static void SetVolume(AudioVolumeChannel audioType, float volume, bool save = false)
         {
             if (Instance.audioMixer == null)
                 return;
 
-            Instance.audioMixer.SetFloat("MasterVolume", LogarithmicDbTransform(Mathf.Clamp01(masterVolume)));
-
-            if (save)
+            switch (audioType)
             {
-                GameSettingsData.masterVolume = masterVolume;
-                Instance.SaveData();
+                case AudioVolumeChannel.Master:
+                    Instance.audioMixer.SetFloat("MasterVolume", LogarithmicDbTransform(Mathf.Clamp01(volume)));
+                    break;
+
+                case AudioVolumeChannel.Music:
+                    Instance.audioMixer.SetFloat("MusicVolume", LogarithmicDbTransform(Mathf.Clamp01(volume)));
+                    break;
+
+                case AudioVolumeChannel.Sound:
+                    Instance.audioMixer.SetFloat("SoundVolume", LogarithmicDbTransform(Mathf.Clamp01(volume)));
+                    break;
             }
-        }
-
-        /// <summary>
-        /// Set and persist music volumes
-        /// </summary>
-        public static void SetSFXVolume(float sfxVolume, bool save = false)
-        {
-            if (Instance.audioMixer == null)
-                return;
-
-            Instance.audioMixer.SetFloat("SFXVolume", LogarithmicDbTransform(Mathf.Clamp01(sfxVolume)));
 
             if (save)
             {
-                GameSettingsData.SFXVolume = sfxVolume;
-                Instance.SaveData();
-            }
-        }
+                switch (audioType)
+                {
+                    case AudioVolumeChannel.Master:
+                        GameSettingsData.masterVolume = volume;
+                        break;
 
-        /// <summary>
-        /// Set and persist music volumes
-        /// </summary>
-        public static void SetBGMVolume(float bgmVolume, bool save = false)
-        {
-            if (Instance.audioMixer == null)
-                return;
+                    case AudioVolumeChannel.Music:
+                        GameSettingsData.musicVolume = volume;
+                        break;
 
-            Instance.audioMixer.SetFloat("BGMVolume", LogarithmicDbTransform(Mathf.Clamp01(bgmVolume)));
+                    case AudioVolumeChannel.Sound:
+                        GameSettingsData.soundVolume = volume;
+                        break;
+                }
 
-            if (save)
-            {
-                GameSettingsData.BGMVolume = bgmVolume;
                 Instance.SaveData();
             }
         }
@@ -94,43 +105,49 @@ namespace MCFramework
         /// <summary>
         /// Set and persist game volumes
         /// </summary>
-        public static void SetVolumes(float masterVolume, float bgmVolume, float sfxVolume, bool save = false)
+        public static void SetVolumes(float masterVolume, float musicVolume, float soundVolume, bool save = false)
+        {
+            SetVolume(AudioVolumeChannel.Master, masterVolume, save);
+            SetVolume(AudioVolumeChannel.Music, musicVolume, save);
+            SetVolume(AudioVolumeChannel.Sound, soundVolume, save);
+        }
+
+        /// <summary>
+        /// Mute or unmute
+        /// </summary>
+        public static void MuteVolume(AudioMuteChannel audioType, bool mute, bool save = false)
         {
             if (Instance.audioMixer == null)
                 return;
 
-            SetMasterVolume(masterVolume, save);
-            SetBGMVolume(bgmVolume, save);
-            SetSFXVolume(sfxVolume, save);
+            if (audioType == AudioMuteChannel.Music)
+            {
+                Instance.m_MusicSource.mute = mute;
+            }
+            else
+            {
+                foreach (AudioSource source in Instance.m_SoundSources)
+                    source.mute = mute;
+            }                
+
+            if (save)
+            {
+                if (audioType == AudioMuteChannel.Music)
+                    GameSettingsData.musicMuted = mute;
+                else
+                    GameSettingsData.soundMuted = mute;
+                
+                Instance.SaveData();
+            }
         }
 
         /// <summary>
         /// Set and persist game volumes
         /// </summary>
-        public static void SetVolumes(bool muteBGM, bool muteSFX, bool save = false)
+        public static void MuteVolumes(bool muteMusic, bool muteSound, bool save = false)
         {
-            if (Instance.audioMixer == null)
-                return;
-
-
-
-            if (muteBGM)
-                Instance.audioMixer.SetFloat("BGMVolume", 0.0f);
-            if (muteSFX)
-                Instance.audioMixer.SetFloat("SFXVolume", 0.0f);
-
-            if (save)
-            {
-                if (muteBGM)
-                    GameSettingsData.BGMVolume = 0.0f;
-                if (muteSFX)
-                    GameSettingsData.SFXVolume = 0.0f;
-
-                GameSettingsData.muteBGM = muteBGM;
-                GameSettingsData.muteSFX = muteSFX;
-
-                Instance.SaveData();
-            }
+            MuteVolume(AudioMuteChannel.Music, muteMusic, save);
+            MuteVolume(AudioMuteChannel.Sound, muteSound, save);
         }
 
         /// <summary>
@@ -142,23 +159,24 @@ namespace MCFramework
             return volume - 80;
         }
 
-        private void FadeBGMOut(float duration)
+        private void FadeMusicOut(float duration)
         {
             float delay = 0f;
             float volume = 0f;
-            StartCoroutine(FadeBGM(volume, delay, duration));
+            StartCoroutine(FadeMusic(volume, delay, duration));
         }
 
-        private void FadeBGMIn(AudioClip clip, float delay, float duration)
-        {          
-            float volume = GameSettingsData.BGMVolume;
-            Instance.m_BGMSource.clip = clip;
-            Instance.m_BGMSource.Play();
+        private void FadeMusicIn(AudioClip clip, float delay, float duration)
+        {
+            float volume = GameSettingsData.musicVolume;
+            Instance.m_MusicSource.mute = GameSettingsData.musicMuted;
+            Instance.m_MusicSource.clip = clip;
+            Instance.m_MusicSource.Play();
 
-            StartCoroutine(FadeBGM(volume, delay, duration));
+            StartCoroutine(FadeMusic(volume, delay, duration));
         }
 
-        private IEnumerator FadeBGM(float fadeToVolume, float delay, float duration)
+        private IEnumerator FadeMusic(float fadeToVolume, float delay, float duration)
         {
             yield return new WaitForSeconds(delay);
 
@@ -167,116 +185,122 @@ namespace MCFramework
             {
                 float t = elapsed / duration;
                 float volume = Mathf.Lerp(0f, fadeToVolume, t);
-                Instance.m_BGMSource.volume = volume;
+                Instance.m_MusicSource.volume = volume;
 
                 elapsed += Time.deltaTime;
                 yield return 0;
             }
         }
 
-        public static void PlayBGM(AudioClip clip)
+        public static void PlayMusic(AudioClip clip)
         {
-            PlayBGM(clip, false, 0.0f);
+            PlayMusic(clip, false, 0.0f);
         }
 
-        public static void PlayBGM(AudioClip clip, bool fade, float fadeDuration)
+        public static void PlayMusic(AudioClip clip, bool fade, float fadeDuration)
         {
             if (fade)
             {
-                if (Instance.m_BGMSource.isPlaying)
+                if (Instance.m_MusicSource.isPlaying)
                 {
-                    Instance.FadeBGMOut(fadeDuration / 2);
-                    Instance.FadeBGMIn(clip, fadeDuration / 2, fadeDuration / 2);
+                    Instance.FadeMusicOut(fadeDuration / 2);
+                    Instance.FadeMusicIn(clip, fadeDuration / 2, fadeDuration / 2);
                 }
                 else
                 {
                     float delay = 0f;
-                    Instance.FadeBGMIn(clip, delay, fadeDuration);
+                    Instance.FadeMusicIn(clip, delay, fadeDuration);
                 }
             }
             else
             {
-                Instance.m_BGMSource.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("BGM")[0];
-                Instance.m_BGMSource.clip = clip;
-                Instance.m_BGMSource.Play();
+                Instance.m_MusicSource.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("Music")[0];
+                Instance.m_MusicSource.mute = GameSettingsData.musicMuted;
+                Instance.m_MusicSource.clip = clip;
+                Instance.m_MusicSource.Play();
             }
         }
 
-        public static void StopBGM(bool fade, float fadeDuration)
+        public static void StopMusic(bool fade, float fadeDuration)
         {
-            if (Instance.m_BGMSource.isPlaying)
+            if (Instance.m_MusicSource.isPlaying)
             {
                 if (fade)
                 {
-                    Instance.FadeBGMOut(fadeDuration);
+                    Instance.FadeMusicOut(fadeDuration);
                 }
                 else
                 {
-                    Instance.m_BGMSource.Stop();
+                    Instance.m_MusicSource.Stop();
                 }
             }
         }
 
-        private AudioSource GetSFXSource()
+        private AudioSource GetSoundSource()
         {
-            GameObject go = new GameObject("SFXSource", typeof(AudioSource));
+            GameObject go = new GameObject("SoundSource", typeof(AudioSource));
             go.transform.parent = transform;
-            AudioSource sfxSource = go.GetComponent<AudioSource>();
-            sfxSource.loop = false;
-            sfxSource.playOnAwake = false;
-            sfxSource.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("SFX")[0];
 
-            if (m_SFXSources == null)
-                m_SFXSources = new List<AudioSource>();
-            m_SFXSources.Add(sfxSource);
+            AudioSource soundSource = go.GetComponent<AudioSource>();
+            soundSource.mute = GameSettingsData.soundMuted;
+            soundSource.loop = false;
+            soundSource.playOnAwake = false;
+            soundSource.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("Sound")[0];
 
-            return sfxSource;
+            if (m_SoundSources == null)
+                m_SoundSources = new List<AudioSource>();
+            m_SoundSources.Add(soundSource);
+
+            return soundSource;
         }
 
-        private IEnumerator RemoveSFXSource(AudioSource sfxSource)
+        private IEnumerator RemoveSoundSource(AudioSource sfxSource)
         {
             yield return new WaitForSeconds(sfxSource.clip.length);
-            m_SFXSources.Remove(sfxSource);
+            m_SoundSources.Remove(sfxSource);
             Destroy(sfxSource.gameObject);
         }
 
-        private IEnumerator RemoveSFXSourceFixedLength(AudioSource sfxSource, float length)
+        private IEnumerator RemoveSoundSourceFixedLength(AudioSource sfxSource, float length)
         {
             yield return new WaitForSeconds(length);
-            m_SFXSources.Remove(sfxSource);
+            m_SoundSources.Remove(sfxSource);
             Destroy(sfxSource);
         }
 
-        public static void PlaySFX(AudioClip sfxClip)
+        public static void PlaySound(AudioClip sfxClip)
         {
-            AudioSource source = Instance.GetSFXSource();
-            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("SFX")[0];
+            AudioSource source = Instance.GetSoundSource();
+            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("Sound")[0];
+            source.mute = GameSettingsData.soundMuted;
             source.clip = sfxClip;
             source.Play();
 
-            Instance.StartCoroutine(Instance.RemoveSFXSource(source));
+            Instance.StartCoroutine(Instance.RemoveSoundSource(source));
         }
 
-        public static void PlaySFXRandomized(AudioClip clip)
+        public static void PlaySoundRandomized(AudioClip clip)
         {
-            AudioSource source = Instance.GetSFXSource();
+            AudioSource source = Instance.GetSoundSource();
+            source.mute = GameSettingsData.soundMuted;
             source.clip = clip;
             source.pitch = Random.Range(0.85f, 1.2f);
-            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("SFX")[0];
+            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("Sound")[0];
             source.Play();
 
-            Instance.StartCoroutine(Instance.RemoveSFXSource(source));
+            Instance.StartCoroutine(Instance.RemoveSoundSource(source));
         }
 
-        public static void PlaySFXFixedDuration(AudioClip clip, float duration)
+        public static void PlaySoundFixedDuration(AudioClip clip, float duration)
         {
-            AudioSource source = Instance.GetSFXSource();
+            AudioSource source = Instance.GetSoundSource();
+            source.mute = GameSettingsData.soundMuted;
             source.clip = clip;
             source.loop = true;
-            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("SFX")[0];
+            source.outputAudioMixerGroup = Instance.audioMixer.FindMatchingGroups("Sound")[0];
             source.Play();
 
-            Instance.StartCoroutine(Instance.RemoveSFXSourceFixedLength(source, duration));
+            Instance.StartCoroutine(Instance.RemoveSoundSourceFixedLength(source, duration));
         }
     }
 }

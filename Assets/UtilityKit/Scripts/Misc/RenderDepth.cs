@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [ExecuteInEditMode]
     public class RenderDepth : MonoBehaviour

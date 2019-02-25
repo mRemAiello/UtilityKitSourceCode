@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class TransitionManager : PersistentSingleton<TransitionManager>
     {

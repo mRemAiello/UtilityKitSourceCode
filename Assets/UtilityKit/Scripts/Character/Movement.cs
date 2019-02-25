@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [RequireComponent(typeof(Rigidbody))]
     public class Movement : MonoBehaviour

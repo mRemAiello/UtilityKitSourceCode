@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class GameInputManager : Singleton<GameInputManager>
     {

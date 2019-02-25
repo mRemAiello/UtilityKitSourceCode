@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [CustomEditor(typeof(LocalizationData))]
     [CanEditMultipleObjects]

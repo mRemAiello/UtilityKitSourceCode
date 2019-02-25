@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [Serializable]
     public class LocalizationSettingsData : IDataStore

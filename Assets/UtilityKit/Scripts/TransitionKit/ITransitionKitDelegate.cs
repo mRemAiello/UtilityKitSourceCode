@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace MCFramework
+namespace UtilityKit
 {
 	/// <summary>
 	/// this is the interface an object must conform to for use with TransitionKit. Delegates can return custom shaders, meshes

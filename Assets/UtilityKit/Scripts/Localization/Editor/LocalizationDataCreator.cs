@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class LocalizationDataCreator
     {

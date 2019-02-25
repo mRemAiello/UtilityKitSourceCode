@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public static class ScriptableObjectUtility
     {

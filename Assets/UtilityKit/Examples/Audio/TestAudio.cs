@@ -1,52 +1,69 @@
-﻿using MCFramework;
+﻿using UtilityKit;
 using UnityEngine;
 using UnityEngine.UI;
+using AudioVolumeChannel = UtilityKit.AudioVolumeChannel;
 
 public class TestAudio : MonoBehaviour
 {
     public Slider masterSlider;
-    public Slider bgmSlider;
-    public Slider sfxSlider;
+    public Slider musicSlider;
+    public Slider soundSlider;
 
     public Toggle musicToggle;
-    public Toggle sfxToggle;
+    public Toggle soundToggle;
 
     public AudioClip music;
     public AudioClip sfx;
 
     void Start()
     {
-        AudioManager.PlayBGM(music, true, 10.0f);        
-
         masterSlider.value = AudioManager.GameSettingsData.masterVolume;
-        bgmSlider.value = AudioManager.GameSettingsData.BGMVolume;
-        sfxSlider.value = AudioManager.GameSettingsData.SFXVolume;
+        musicSlider.value = AudioManager.GameSettingsData.musicVolume;
+        soundSlider.value = AudioManager.GameSettingsData.soundVolume;
+
+        musicToggle.isOn = AudioManager.GameSettingsData.musicMuted;
+        soundToggle.isOn = AudioManager.GameSettingsData.soundMuted;
 
         masterSlider.onValueChanged.AddListener(delegate { OnMasterVolumeChange(); });
-        bgmSlider.onValueChanged.AddListener(delegate { OnBGMValueChange(); });
-        sfxSlider.onValueChanged.AddListener(delegate { OnSFXValueChange(); });
+        musicSlider.onValueChanged.AddListener(delegate { OnMusicValueChange(); });
+        soundSlider.onValueChanged.AddListener(delegate { OnSoundValueChange(); });
+
+        musicToggle.onValueChanged.AddListener(delegate { OnMusicToggleChange(); });
+        soundToggle.onValueChanged.AddListener(delegate { OnSoundToggleChange(); });
+
+        AudioManager.PlayMusic(music, true, 5.0f);        
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AudioManager.PlaySFX(sfx);
+            AudioManager.PlaySound(sfx);
         }
     }
 
     public void OnMasterVolumeChange()
     {
-        AudioManager.SetMasterVolume(masterSlider.value, true);
+        AudioManager.SetVolume(AudioVolumeChannel.Master, masterSlider.value, true);
     }
 
-    public void OnBGMValueChange()
+    public void OnMusicValueChange()
     {
-        AudioManager.SetBGMVolume(bgmSlider.value, true);
+        AudioManager.SetVolume(AudioVolumeChannel.Music, musicSlider.value, true);
     }
 
-    public void OnSFXValueChange()
+    public void OnSoundValueChange()
     {
-        AudioManager.SetBGMVolume(sfxSlider.value, true);
+        AudioManager.SetVolume(AudioVolumeChannel.Sound, soundSlider.value, true);
+    }
+
+    public void OnMusicToggleChange()
+    {
+        AudioManager.MuteVolume(AudioMuteChannel.Music, musicToggle.isOn, true);
+    }
+
+    public void OnSoundToggleChange()
+    {
+        AudioManager.MuteVolume(AudioMuteChannel.Sound, soundToggle.isOn, true);
     }
 }

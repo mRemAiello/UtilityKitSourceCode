@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class GameSaveManager : Singleton<GameSaveManager>
     {

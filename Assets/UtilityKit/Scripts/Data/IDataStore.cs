@@ -1,4 +1,4 @@
-﻿namespace MCFramework
+﻿namespace UtilityKit
 {
     /// <summary>
     /// Interface for data store

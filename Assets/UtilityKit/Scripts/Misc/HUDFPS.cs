@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class HUDFPS : MonoBehaviour
     {

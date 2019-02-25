@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Json implementation of file saver

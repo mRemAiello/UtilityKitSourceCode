@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class ModalWindowManager : Singleton<ModalWindowManager>
     {

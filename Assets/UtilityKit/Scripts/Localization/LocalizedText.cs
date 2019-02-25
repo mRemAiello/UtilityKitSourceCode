@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class LocalizedText : MonoBehaviour
     {

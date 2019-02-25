@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Simple Script to Rotate GameObjects Indefinitely.  I.e. a ferris wheel, or a Gem/Coin Object.

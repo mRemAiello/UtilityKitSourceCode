@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// this is an example of how you can use a standard MonoBehaviour subclass to be able to edit values via the Inspector.

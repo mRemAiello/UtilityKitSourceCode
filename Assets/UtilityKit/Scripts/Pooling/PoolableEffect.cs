@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Simple effect support script to reset trails and particles on enable, and also

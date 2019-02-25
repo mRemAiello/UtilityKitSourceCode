@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class ActionCameraCollision : MonoBehaviour
     {

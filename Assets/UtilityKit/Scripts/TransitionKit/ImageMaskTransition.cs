@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// the maskTexture will show the background image (screen grab) where it is transparent and the backgroundColor where it is not.

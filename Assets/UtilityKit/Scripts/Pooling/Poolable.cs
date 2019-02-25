@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// Class that is to be pooled

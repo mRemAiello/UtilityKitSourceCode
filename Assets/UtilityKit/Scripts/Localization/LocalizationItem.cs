@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [Serializable]
     public class LocalizationItem

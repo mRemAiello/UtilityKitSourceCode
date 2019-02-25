@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Events;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class EventButtonDetails
     {

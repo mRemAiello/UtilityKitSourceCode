@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MCFramework
+namespace UtilityKit
 {
     /// <summary>
     /// the Doorway shader can have _Progress run from 0 to -1 or 0 to 1. The runEffectInReverse controls that.

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class WindTransition : ITransitionKitDelegate
     {

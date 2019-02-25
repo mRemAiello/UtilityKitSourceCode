@@ -1,23 +1,25 @@
 ﻿using System;
 
-namespace MCFramework
+namespace UtilityKit
 {
     [Serializable]
     public class AudioGameSettingsData : IDataStore
     {
-        public bool muteBGM;
-        public bool muteSFX;
+        public bool musicMuted;
+        public bool soundMuted;
+
         public float masterVolume;
-        public float BGMVolume;
-        public float SFXVolume;
+        public float musicVolume;
+        public float soundVolume;
 
         public void Init()
         {
-            muteBGM = false;
-            muteSFX = false;
+            musicMuted = false;
+            soundMuted = false;
+
             masterVolume = 1.0f;
-            BGMVolume = 1.0f;
-            SFXVolume = 1.0f;
+            musicVolume = 1.0f;
+            soundVolume = 1.0f;
         }
 
         /// <summary>

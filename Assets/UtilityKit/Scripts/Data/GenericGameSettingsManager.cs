@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class GenericGameSettingsManager<M, D> : Singleton<M> where D : IDataStore, new() where M : GenericGameSettingsManager<M, D>
     {

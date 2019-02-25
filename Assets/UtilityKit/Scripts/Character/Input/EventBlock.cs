@@ -1,4 +1,4 @@
-﻿namespace MCFramework
+﻿namespace UtilityKit
 {
     public class EventBlock : System.IComparable<EventBlock>
     {

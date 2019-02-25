@@ -2,7 +2,7 @@
 /// Singleton that persists across multiple scenes
 /// </summary>
 
-namespace MCFramework
+namespace UtilityKit
 {
     public class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>
     {
