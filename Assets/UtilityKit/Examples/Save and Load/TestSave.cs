@@ -1,34 +1,33 @@
 ﻿using UtilityKit;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TestSave : MonoBehaviour
 {
-    class TestSaveData : IDataStore
-    {
-        public int classicBestScore;
+    private TestSaveData data;
 
-        public void Init()
-        {
-            classicBestScore = 0;
-        }
-
-        public void PostLoad()
-        {
-        }
-
-        public void PreSave()
-        {
-        }
-    }
+    public Button updateHighScoreButton;
+    public Button loadHighScoreButton;
+    public Text highScoreText;
 
     void Start()
     {
-        TestSaveData data = GameSaveManager.LoadData<TestSaveData>("save");
+        LoadGame();
 
-        Debug.Log(data.classicBestScore);
+        updateHighScoreButton.onClick.AddListener(delegate { UpdateHighScores(); });
+        loadHighScoreButton.onClick.AddListener(delegate { LoadGame(); });
+    }
 
-        //data.classicBestScore = 25;
+    public void LoadGame()
+    {
+        data = GameSaveManager.LoadData<TestSaveData>("save");
+        highScoreText.text = string.Format("Best Score: {0}", data.classicBestScore);
+    }
 
-        //GameSavemanager.SaveData("save", data);
+    public void UpdateHighScores()
+    {
+        data = GameSaveManager.LoadData<TestSaveData>("save");
+        data.classicBestScore = Random.Range(1, 50);
+        GameSaveManager.SaveData("save", data);
     }
 }
