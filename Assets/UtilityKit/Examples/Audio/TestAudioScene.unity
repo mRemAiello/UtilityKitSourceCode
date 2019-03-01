@@ -407,8 +407,8 @@ MonoBehaviour:
   soundSlider: {fileID: 279493614}
   musicToggle: {fileID: 1049757137}
   soundToggle: {fileID: 105683012}
-  music: {fileID: 8300000, guid: 841a67c56bd114e458e4c89f8298c518, type: 3}
-  sfx: {fileID: 8300000, guid: c8134f1ea6a65954cb606ea211b4782c, type: 3}
+  music: {fileID: 8300000, guid: 9b9fc4ee2d730d94ead9c5ddab8b6d89, type: 3}
+  sfx: {fileID: 8300000, guid: 486be2f9a4b6fbf48b34f34b6004dad0, type: 3}
 --- !u!114 &170074121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1872,7 +1872,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sfx
+  m_Text: Mute Sfx
 --- !u!222 &1547912300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2173,7 +2173,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Music
+  m_Text: Mute Music
 --- !u!222 &1945672923
 CanvasRenderer:
   m_ObjectHideFlags: 0
