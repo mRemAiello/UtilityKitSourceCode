@@ -39,6 +39,12 @@ namespace UtilityKit
                 {
                     Instance.m_LocalizedText.Add(toLoad.items[i].key, toLoad.items[i].value);
                 }
+
+                LocalizedText[] texts = FindObjectsOfType<LocalizedText>();
+                foreach (LocalizedText text in texts)
+                {
+                    text.UpdateText();
+                }
             }
 
             if (save)

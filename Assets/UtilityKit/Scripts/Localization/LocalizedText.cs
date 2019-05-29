@@ -10,14 +10,12 @@ namespace UtilityKit
 
         void Start()
         {
-            m_TextMeshPro = GetComponent<TextMeshProUGUI>();
-            m_TextMeshPro.text = LocalizationManager.GetLocalizedValue(key);
-
-            InvokeRepeating("UpdateText", 0.1f, 0.1f);
+            UpdateText();
         }
 
-        void UpdateText()
+        public void UpdateText()
         {
+            m_TextMeshPro = GetComponent<TextMeshProUGUI>();
             m_TextMeshPro.text = LocalizationManager.GetLocalizedValue(key);
         }
     }
