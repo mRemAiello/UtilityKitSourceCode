@@ -16,7 +16,10 @@ namespace UtilityKit
         public void UpdateText()
         {
             m_TextMeshPro = GetComponent<TextMeshProUGUI>();
-            m_TextMeshPro.text = LocalizationManager.GetLocalizedValue(key);
+            if (!string.IsNullOrEmpty(key) && m_TextMeshPro != null)
+            {               
+                m_TextMeshPro.text = LocalizationManager.GetLocalizedValue(key);
+            }
         }
     }
 }

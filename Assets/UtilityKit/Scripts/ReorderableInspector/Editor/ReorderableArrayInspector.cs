@@ -36,9 +36,9 @@ using UnityEditorInternal;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace SubjectNerd.Utilities
+namespace UtilityKit
 {
-	[CustomEditor(typeof(UnityEngine.Object), true, isFallback = true)]
+	[CustomEditor(typeof(Object), true, isFallback = true)]
 	[CanEditMultipleObjects]
 	public class ReorderableArrayInspector : Editor
 	{

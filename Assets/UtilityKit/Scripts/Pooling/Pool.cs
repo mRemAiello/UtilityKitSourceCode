@@ -119,15 +119,13 @@ namespace UtilityKit
         /// </summary>
         public virtual void Return(T pooledItem)
         {
-            if (m_All.Contains(pooledItem) &&
-                !m_Available.Contains(pooledItem))
+            if (m_All.Contains(pooledItem) && !m_Available.Contains(pooledItem))
             {
                 ReturnToPoolInternal(pooledItem);
             }
             else
             {
-                throw new InvalidOperationException("Trying to return an item to a pool that does not contain it: " + pooledItem +
-                                                    ", " + this);
+                throw new InvalidOperationException(string.Format("Trying to return an item to a pool that does not contain it: {0} , {1}", pooledItem, this));
             }
         }
 

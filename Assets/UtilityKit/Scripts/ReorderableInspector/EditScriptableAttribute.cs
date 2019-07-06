@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 using UnityEngine;
 
-namespace SubjectNerd.Utilities
+namespace UtilityKit
 {
 	/// <summary>
 	/// Display a ScriptableObject field with an inline editor

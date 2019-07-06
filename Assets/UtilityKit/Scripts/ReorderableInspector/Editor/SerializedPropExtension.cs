@@ -26,11 +26,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
 
-namespace SubjectNerd.Utilities
+namespace UtilityKit
 {
-	internal static class SerializedPropExtension
+    internal static class SerializedPropExtension
 	{
 		#region Simple string path based extensions
 		/// <summary>

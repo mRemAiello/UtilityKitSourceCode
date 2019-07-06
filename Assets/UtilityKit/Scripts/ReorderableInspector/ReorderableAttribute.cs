@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 using UnityEngine;
 
-namespace SubjectNerd.Utilities
+namespace UtilityKit
 {
 	/// <summary>
 	/// Display a List/Array as a sortable list in the inspector
