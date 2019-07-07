@@ -7,6 +7,7 @@ namespace UtilityKit
     public class LocalizationData : ScriptableObject
     {
         public SystemLanguage language;
+        [Reorderable]
         public LocalizationItem[] items;
     }
 }
